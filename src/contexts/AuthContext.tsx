@@ -24,6 +24,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     console.log('[AuthContext] 초기화 시작');
 
+    // 환경 변수 확인
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      console.warn('[AuthContext] Supabase 환경 변수가 없습니다. 인증 기능이 비활성화됩니다.');
+      setLoading(false);
+      return;
+    }
+
     // 인증 상태 변경 리스너 (먼저 설정하여 초기 세션도 감지)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log('[AuthContext] Auth state changed:', event, session?.user?.id);
@@ -70,6 +80,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signUp(nickname: string, password: string): Promise<boolean> {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseAnonKey) {
+      setError('Supabase가 설정되지 않았습니다. 환경 변수를 확인해주세요.');
+      return false;
+    }
+
     setError(null);
     const { user: newUser, error: err } = await authService.signUp(nickname, password);
     if (newUser && !err) {
@@ -81,6 +99,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signIn(nickname: string, password: string): Promise<boolean> {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseAnonKey) {
+      setError('Supabase가 설정되지 않았습니다. 환경 변수를 확인해주세요.');
+      return false;
+    }
+
     setError(null);
     setLoading(true);
     console.log('[AuthContext] signIn 시작:', nickname);
@@ -108,6 +134,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   async function signOut() {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+    
+    if (!supabaseUrl || !supabaseAnonKey) {
+      setUser(null);
+      return;
+    }
+
     console.log('[AuthContext] signOut 시작');
     await authService.signOut();
     setUser(null);
