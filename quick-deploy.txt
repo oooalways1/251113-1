@@ -1,0 +1,32 @@
+===============================================
+  구구단 산성비 게임 - 빠른 배포 가이드
+===============================================
+
+📋 복사해서 PowerShell에 붙여넣기:
+
+cd c:\test
+git init
+git config user.email "qo1598@dge.go.kr"
+git config user.name "qo1598"
+git add .
+git commit -m "Initial commit: 구구단 산성비 게임"
+git remote add origin https://github.com/qo1598/251106.git
+git branch -M main
+git push -u origin main
+
+===============================================
+
+✅ 완료 후:
+1. https://github.com/qo1598/251106 방문
+2. Settings → Pages → Source: "GitHub Actions" 선택
+3. 배포 완료 대기 (2-3분)
+4. 접속: https://qo1598.github.io/251106/
+
+===============================================
+
+⚠️ 사전 준비:
+- Git 설치: https://git-scm.com/download/win
+- Personal Access Token 생성 (푸시 시 필요)
+
+===============================================
+
